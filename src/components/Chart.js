@@ -2,13 +2,17 @@ import ApexCharts from "react-apexcharts";
 import { renderToString } from "react-dom/server";
 import ToolTip from "./ToolTip";
 
-const Chart = ({ data }) => {
+const Chart = ({ data, setSearchParams, selectedId }) => {
   const chartData = Object.entries(data)?.map(
     ([x, { id, value_area, value_bar }]) => ({
       id,
       x,
       y_area: value_area,
       y_bar: value_bar,
+      fillColor:
+        id === selectedId
+          ? "rgba(255, 200, 20, 1)"
+          : "rgba(150, 150, 150, 0.6)",
     })
   );
 
@@ -40,6 +44,12 @@ const Chart = ({ data }) => {
   const options = {
     chart: {
       height: 350,
+      events: {
+        click: (event, chart, config) => {
+          const clickedId = chartData[config.dataPointIndex]?.id;
+          if (clickedId) setSearchParams({ id: clickedId });
+        },
+      },
     },
     colors: ["rgba(150, 150, 150, 0.6)", "rgba(60, 138, 0, 0.5)"],
     stroke: {
