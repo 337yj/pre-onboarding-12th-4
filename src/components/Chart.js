@@ -1,4 +1,6 @@
 import ApexCharts from "react-apexcharts";
+import { renderToString } from "react-dom/server";
+import ToolTip from "./ToolTip";
 
 const Chart = ({ data }) => {
   const chartData = Object.entries(data)?.map(
@@ -76,6 +78,21 @@ const Chart = ({ data }) => {
         tickAmount: 4,
       },
     ],
+    tooltip: {
+      enabled: true,
+      shared: true,
+      intersect: false,
+      custom({ series, dataPointIndex }) {
+        return renderToString(
+          <ToolTip
+            id={chartData[dataPointIndex]?.id}
+            bar={series[0][dataPointIndex]}
+            area={series[1][dataPointIndex]}
+            time={Object.keys(data)[dataPointIndex]}
+          />
+        );
+      },
+    },
   };
 
   return (
