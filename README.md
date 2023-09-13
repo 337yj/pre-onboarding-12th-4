@@ -1,70 +1,122 @@
-# Getting Started with Create React App
+## 원티드 프리온보딩 프론트엔드 인턴십 4주차 과제
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+🎯 주어진 데이터를 기반으로 시계열 차트 만들기
 
-## Available Scripts
+<br/>
 
-In the project directory, you can run:
+## 배포 링크
 
-### `npm start`
+[배포 링크]()
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<br/>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 프로젝트 실행 방법
 
-### `npm test`
+```
+git clone https://github.com/337yj/pre-onboarding-12th-4.git
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+npm install
+npm start
+```
 
-### `npm run build`
+<br/>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 폴더 구조
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+  📂  public
+   │  └─ mock_data.json
+  📂  src
+   ├─ api
+   │  └─ chartData.js
+   ├─ components
+   │  ├─ Chart.js
+   │  └─ ToolTip.js
+   ├─ hooks
+   │  └─ useFetchData.js
+   ├─ router
+   │  └─ Router.js
+   ├─ style
+   │  └─ GlobalStyle.js
+   ├─ App.js
+   └─ index.js
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<br/>
 
-### `npm run eject`
+## 기술 스택
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+`React` `Javascript` `ApexCharts` `axios` `react-router-dom` `styled-components`
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<br/>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 기능 구현
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### ✅ 시계열 차트 구현:
 
-## Learn More
+> 💡**요구사항**
+>
+> - 주어진 JSON 데이터의 key값(시간)을 기반으로 시계열 차트를 만들어주세요
+> - 하나의 차트안에 Area 형태의 그래프와 Bar 형태의 그래프가 모두 존재하는 복합 그래프로 만들어주세요
+> - Area 그래프의 기준값은 value_area 값을 이용해주세요
+> - Bar 그래프의 기준값은 value_bar 값을 이용해주세요
+> - 차트의 Y축에 대략적인 수치를 표현해주세요
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- ApexCharts 라이브러리 사용해 주어진 데이터의 key값(시간)을 기반으로 시계열 차트를 구현하였습니다.
+- `chartData` 배열을 생성하여 각 데이터 항목을 시간(x), ID(id), Area 그래프 값(y_area), Bar 그래프 값(y_bar), 색상 정보(fillColor)로 구성하였습니다.
+- `chartSeries` 객체를 만들어 Bar와 Area 그래프를 설정하고, 각 그래프에 대한 데이터를 설정하였습니다.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<br/>
 
-### Code Splitting
+### ✅ 호버 기능 구현:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+> 💡**요구사항**
+>
+> - 특정 데이터 구역에 마우스 호버시 id, value_area, value_bar 데이터를 툴팁 형태로 제공해주세요
 
-### Analyzing the Bundle Size
+- ApexCharts에서 제공하는 `tooltip` 옵션을 커스텀하여 구현하였습니다.
+- 툴팁은 호버된 데이터의 `ID`, `value_area`, `value_bar`, `시간` 정보를 표시합니다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+<br/>
 
-### Making a Progressive Web App
+### ✅ 필터링 기능 구현:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+> 💡**요구사항**
+>
+> - 필터링 기능을 구현해주세요, 필터링은 특정 데이터 구역을 하이라이트 하는 방식으로 구현해주세요
+> - 필터링 기능은 버튼 형태로 ID값(지역이름)을 이용해주세요
+> - 필터링 시 버튼에서 선택한 ID값과 동일한 ID값을 가진 데이터 구역만 하이라이트 처리를 해주세요
+> - 특정 데이터 구역을 클릭 시에도 필터링 기능과 동일한 형태로 동일한 ID값을 가진 데이터 구역을 하이라이트해주세요
 
-### Advanced Configuration
+- `useSearchParams`를 이용하여 현재 URL의 query string을 파싱하고, 선택한 ID값을 추출합니다.
+- 이 후 버튼을 클릭하거나 차트에서 데이터를 클릭할 때마다 `setSearchParams`를 사용하여 URL의 id 매개변수를 업데이트되고, 선택된 ID가 URL에 반영되어 필터링이 됩니다.
+- `RESET 버튼`을 클릭하면 모든 필터를 제거하고 초기 상태로 돌립니다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+<br/>
 
-### Deployment
+### 커밋 컨벤션
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+🗒️ commit message rule
 
-### `npm run build` fails to minify
+1. 제목과 본문을 빈 행으로 구분한다.
+2. 최대한 한글로 작성한다.
+3. 제목은 50글자 내로 제한한다.
+4. 제목 끝에 마침표를 찍지 않는다.
+5. 제목은 명령문으로 사용하며, 과거형을 사용하지 않는다.
+6. 어떻게 보다는 무엇과 왜
+7. 아래 표를 참고하여 접두로 사용한다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+| Type 키워드 | 사용 시점                                                             |
+| ----------- | --------------------------------------------------------------------- |
+| feat        | 새로운 기능 추가                                                      |
+| fix         | 버그 수정                                                             |
+| docs        | 문서 수정                                                             |
+| style       | 코드 스타일 변경 (코드 포매팅, 세미콜론 누락 등)기능 수정이 없는 경우 |
+| design      | 사용자 UI 디자인 변경 (CSS 등)                                        |
+| test        | 테스트 코드, 리팩토링 테스트 코드 추가                                |
+| refactor    | 코드 리팩토링                                                         |
+| build       | 빌드 파일 수정                                                        |
+| ci          | CI 설정 파일 수정                                                     |
+| chore       | 빌드 업무 수정, 패키지 매니저 수정 (gitignore 수정 등)                |
+| rename      | 파일 혹은 폴더명을 수정만 한 경우                                     |
+| remove      | 파일을 삭제만 한 경우                                                 |
